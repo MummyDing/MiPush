@@ -121,8 +121,8 @@ public class MiPushMessageReceiver extends PushMessageReceiver {
                 .getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationCompat.Builder nb = new NotificationCompat.Builder(context);
         nb.setTicker(alert);
-        nb.setSmallIcon(R.mipmap.ic_launcher);
-        nb.setSmallIcon(R.mipmap.ic_launcher);
+        nb.setSmallIcon(R.drawable.app_logo);
+        nb.setSmallIcon(R.drawable.app_logo);
         nb.setWhen(System.currentTimeMillis());
         nb.setContentTitle(title);
         nb.setContentText(alert);
