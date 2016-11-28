@@ -1,8 +1,12 @@
 package com.github.mummyding.mipush.receiver;
 
+import android.app.NotificationManager;
 import android.content.Context;
+import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
+import android.widget.Toast;
 
+import com.github.mummyding.mipush.R;
 import com.xiaomi.mipush.sdk.ErrorCode;
 import com.xiaomi.mipush.sdk.MiPushClient;
 import com.xiaomi.mipush.sdk.MiPushCommandMessage;
@@ -25,39 +29,46 @@ public class MiPushMessageReceiver extends PushMessageReceiver {
     private String mUserAccount;
     private String mStartTime;
     private String mEndTime;
+
     @Override
     public void onReceivePassThroughMessage(Context context, MiPushMessage message) {
         mMessage = message.getContent();
-        if(!TextUtils.isEmpty(message.getTopic())) {
-            mTopic=message.getTopic();
-        } else if(!TextUtils.isEmpty(message.getAlias())) {
-            mAlias=message.getAlias();
-        } else if(!TextUtils.isEmpty(message.getUserAccount())) {
-            mUserAccount=message.getUserAccount();
+        if (!TextUtils.isEmpty(message.getTopic())) {
+            mTopic = message.getTopic();
+        } else if (!TextUtils.isEmpty(message.getAlias())) {
+            mAlias = message.getAlias();
+        } else if (!TextUtils.isEmpty(message.getUserAccount())) {
+            mUserAccount = message.getUserAccount();
         }
+        showPushMessageNotification(context, message.getNotifyId(), message.getExtra().get("title"), message.getContent());
     }
+
     @Override
     public void onNotificationMessageClicked(Context context, MiPushMessage message) {
         mMessage = message.getContent();
-        if(!TextUtils.isEmpty(message.getTopic())) {
-            mTopic=message.getTopic();
-        } else if(!TextUtils.isEmpty(message.getAlias())) {
-            mAlias=message.getAlias();
-        } else if(!TextUtils.isEmpty(message.getUserAccount())) {
-            mUserAccount=message.getUserAccount();
+        if (!TextUtils.isEmpty(message.getTopic())) {
+            mTopic = message.getTopic();
+        } else if (!TextUtils.isEmpty(message.getAlias())) {
+            mAlias = message.getAlias();
+        } else if (!TextUtils.isEmpty(message.getUserAccount())) {
+            mUserAccount = message.getUserAccount();
         }
+        Toast.makeText(context, mTopic, Toast.LENGTH_LONG).show();
     }
+
     @Override
     public void onNotificationMessageArrived(Context context, MiPushMessage message) {
         mMessage = message.getContent();
-        if(!TextUtils.isEmpty(message.getTopic())) {
-            mTopic=message.getTopic();
-        } else if(!TextUtils.isEmpty(message.getAlias())) {
-            mAlias=message.getAlias();
-        } else if(!TextUtils.isEmpty(message.getUserAccount())) {
-            mUserAccount=message.getUserAccount();
+        if (!TextUtils.isEmpty(message.getTopic())) {
+            mTopic = message.getTopic();
+        } else if (!TextUtils.isEmpty(message.getAlias())) {
+            mAlias = message.getAlias();
+        } else if (!TextUtils.isEmpty(message.getUserAccount())) {
+            mUserAccount = message.getUserAccount();
         }
+        Toast.makeText(context, mTopic, Toast.LENGTH_LONG).show();
     }
+
     @Override
     public void onCommandResult(Context context, MiPushCommandMessage message) {
         String command = message.getCommand();
@@ -91,6 +102,7 @@ public class MiPushMessageReceiver extends PushMessageReceiver {
             }
         }
     }
+
     @Override
     public void onReceiveRegisterResult(Context context, MiPushCommandMessage message) {
         String command = message.getCommand();
@@ -102,5 +114,20 @@ public class MiPushMessageReceiver extends PushMessageReceiver {
                 mRegId = cmdArg1;
             }
         }
+    }
+
+    private void showPushMessageNotification(final Context context, final int id, final String title, final String alert) {
+        NotificationManager nm = (NotificationManager) context
+                .getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationCompat.Builder nb = new NotificationCompat.Builder(context);
+        nb.setTicker(alert);
+        nb.setSmallIcon(R.mipmap.ic_launcher);
+        nb.setSmallIcon(R.mipmap.ic_launcher);
+        nb.setWhen(System.currentTimeMillis());
+        nb.setContentTitle(title);
+        nb.setContentText(alert);
+        nm.notify(id, nb.build());
+        Toast.makeText(context, title, Toast.LENGTH_LONG).show();
+
     }
 }
