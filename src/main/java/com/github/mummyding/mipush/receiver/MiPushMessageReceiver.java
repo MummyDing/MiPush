@@ -1,11 +1,15 @@
 package com.github.mummyding.mipush.receiver;
 
+import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.widget.Toast;
 
+import com.github.mummyding.mipush.MainActivity;
 import com.github.mummyding.mipush.R;
 import com.xiaomi.mipush.sdk.ErrorCode;
 import com.xiaomi.mipush.sdk.MiPushClient;
@@ -126,7 +130,12 @@ public class MiPushMessageReceiver extends PushMessageReceiver {
         nb.setWhen(System.currentTimeMillis());
         nb.setContentTitle(title);
         nb.setContentText(alert);
-        nm.notify(id, nb.build());
+        Intent intent = new Intent(context, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        nb.setContentIntent(pendingIntent);
+        Notification notification = nb.build();
+        notification.flags |= Notification.FLAG_AUTO_CANCEL;
+        nm.notify(id, notification);
         Toast.makeText(context, title, Toast.LENGTH_LONG).show();
 
     }
