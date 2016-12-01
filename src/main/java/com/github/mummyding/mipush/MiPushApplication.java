@@ -38,7 +38,7 @@ public class MiPushApplication extends Application {
         //初始化push推送服务
         if(shouldInit()) {
             MiPushClient.registerPush(this, APP_ID, APP_KEY);
-            MiPushClient.setUserAccount(getApplicationContext(), "MummyDing", "-1");
+            MiPushClient.setUserAccount(getApplicationContext(), "MichelleMeng", "-1");
         }
         LoggerInterface newLogger = new LoggerInterface() {
             @Override

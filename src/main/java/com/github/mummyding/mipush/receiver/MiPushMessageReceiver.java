@@ -5,7 +5,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.widget.Toast;
 
@@ -123,7 +122,7 @@ public class MiPushMessageReceiver extends PushMessageReceiver {
     private void showPushMessageNotification(final Context context, final int id, final String title, final String alert) {
         NotificationManager nm = (NotificationManager) context
                 .getSystemService(Context.NOTIFICATION_SERVICE);
-        NotificationCompat.Builder nb = new NotificationCompat.Builder(context);
+        Notification.Builder nb = new Notification.Builder(context);
         nb.setTicker(alert);
         nb.setSmallIcon(R.drawable.app_logo);
         nb.setSmallIcon(R.drawable.app_logo);
